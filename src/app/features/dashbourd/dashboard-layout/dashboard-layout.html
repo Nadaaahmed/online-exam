@@ -1,0 +1,52 @@
+<div class="h-screen grid grid-cols-1 md:grid-cols-[282px_1fr] bg-[#F9FAFB]">
+
+  <!-- SIDEBAR MOBILE -->
+  <aside 
+    class="block md:hidden fixed inset-0 z-40 bg-black/40"
+    *ngIf="mobileSidebarOpen"
+    (click)="mobileSidebarOpen = false">
+    
+    <div class="w-[282px] bg-[#EFF6FF] h-full p-10"
+         (click)="$event.stopPropagation()">
+      <app-sidebar
+        [title]="sidebarTitle"
+        [subtitle]="sidebarSubtitle"
+        [links]="sidebarLinks"
+        [userName]="userName"
+        [userEmail]="userEmail">
+      </app-sidebar>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR DESKTOP -->
+  <aside class="hidden md:block h-full bg-[#EFF6FF]">
+    <app-sidebar
+      [title]="sidebarTitle"
+      [subtitle]="sidebarSubtitle"
+      [links]="sidebarLinks"
+      [userName]="userName"
+      [userEmail]="userEmail">
+    </app-sidebar>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex flex-col h-full overflow-hidden">
+
+    <!-- NAVBAR -->
+    <app-navbar
+      [title]="navbarTitle"
+      [iconClass]="navbarIcon"
+      [showBack]="showBackButton"
+      (toggleSidebar)="mobileSidebarOpen = true"
+      (back)="onBack()">
+    </app-navbar>
+
+    <!-- CONTENT -->
+    <main class="flex-1 overflow-auto p-4 md:p-8">
+      <div class="bg-white rounded-lg shadow-sm p-4 md:p-8 w-full">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+  </div>
+</div>

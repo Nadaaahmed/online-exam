@@ -1,0 +1,14 @@
+<button
+  [class]="getButtonClasses()"
+  type="button"
+  (click)="logout()"
+  [disabled]="isLoggingOut"
+>
+  <img [src]="iconSrc" [alt]="iconAlt" class="w-5 h-5" />
+  <span *ngIf="!isLoggingOut">{{ buttonText }}</span>
+  <span *ngIf="isLoggingOut">Logging out...</span>
+</button>
+
+<div *ngIf="errorMessage" class="text-[11px] text-red-500 px-1 mt-1">
+  {{ errorMessage }}
+</div>

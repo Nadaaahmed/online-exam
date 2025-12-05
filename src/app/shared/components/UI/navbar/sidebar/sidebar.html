@@ -1,0 +1,19 @@
+<aside
+  class="fixed left-0 top-0 w-[282px] h-full bg-[#EFF6FF] border-r border-blue-200
+         flex flex-col justify-between p-10 overflow-y-auto z-40">
+
+  <div class="space-y-10">
+    <app-sidebar-logo 
+      [title]="title"
+      [subtitle]="subtitle">
+    </app-sidebar-logo>
+
+    <app-sidebar-nav [links]="links"></app-sidebar-nav>
+  </div>
+
+  <app-sidebar-user
+    [userName]="userName"
+    [userEmail]="userEmail">
+  </app-sidebar-user>
+
+</aside>

@@ -1,0 +1,29 @@
+<div class="w-full max-w-md mx-auto font-poppins">
+  <h2 class="text-[25px] font-bold mb-6 text-center md:text-left w-full">
+    Verify Code
+  </h2>
+  <form [formGroup]="verifyCodeForm" (ngSubmit)="submitCode()" class="w-full flex flex-col gap-6">
+  <app-reusableinput
+    [form]="verifyCodeForm"
+    controlName="code"
+    [fieldName]="'Verification Code'"
+    placeholder="Enter Code"
+    type="text">
+  </app-reusableinput>
+
+  <div class="flex justify-end">
+    <a class="text-[#6C737F] text-[16px] cursor-pointer" (click)="resendCode()">
+      Didn't receive a code?
+      <span class="text-[#4461F2] hover:underline">Resend</span>
+    </a>
+  </div>
+
+  <div class="mt-4">
+    <app-form-button 
+      [label]="'Verify'" 
+      [type]="'submit'"
+      [disabled]="verifyCodeForm.invalid">
+    </app-form-button>
+  </div>
+  </form>
+</div>

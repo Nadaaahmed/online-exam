@@ -1,0 +1,12 @@
+<section class="flex flex-col justify-center items-center md:items-start w-full max-w-md mx-auto font-poppins px-4 sm:px-0">
+  <h2 class="text-[25px] font-bold mb-6 text-center md:text-left w-full">Sign in</h2>
+  <form [formGroup]="signInForm" (ngSubmit)="login()" class="w-full flex flex-col gap-6">
+    <app-reusableinput [form]="signInForm" controlName="email" [fieldName]="'Email'" placeholder="Enter Email" type="email"></app-reusableinput>
+    <app-reusableinput [form]="signInForm" controlName="password" [fieldName]="'Password'" placeholder="Password" type="password"></app-reusableinput>
+    <div class="flex justify-end">
+      <a routerLink="/auth/forgot-password" class="text-[#4461F2] text-[16px] hover:underline transition-all duration-200">Recover Password ?</a>
+    </div>
+    <app-form-button label="Sign in" type="submit" [disabled]="signInForm.invalid"></app-form-button>
+    <p class="text-red-600 text-sm mt-2" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</section>

@@ -1,0 +1,15 @@
+  <nav class="space-y-8 mt-16">
+      @for (item of links; track item.label) {
+        <a
+          [routerLink]="item.route"
+          class="flex items-center gap-3 px-3 py-2 rounded-md font-medium cursor-pointer transition"
+          [ngClass]="{
+            'border border-blue-300 text-blue-600 hover:bg-blue-100': item.active,
+            'text-gray-600 hover:text-blue-600': !item.active
+          }"
+        >
+          <img src="{{ item.icon }}" alt="{{ item.label }} icon" />
+          {{ item.label }}
+        </a>
+      }
+    </nav>

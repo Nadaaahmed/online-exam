@@ -1,0 +1,12 @@
+<div class="w-full max-w-md mx-auto font-poppins">
+  <h2 class="text-[25px] font-bold mb-6 text-center md:text-left w-full">
+    Forgot Password
+  </h2>
+  <form [formGroup]="emailForm" (ngSubmit)="sendCode()" class="w-full flex flex-col gap-6">
+    <app-reusableinput [form]="emailForm" controlName="email" [fieldName]="'Email'" placeholder="Enter your email" type="email">
+    </app-reusableinput>
+    <div class="mt-4">
+      <app-form-button [label]="'Send Code'" [type]="'submit'" [disabled]="emailForm.invalid"></app-form-button>
+    </div>
+  </form>
+</div>

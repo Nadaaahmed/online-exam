@@ -1,0 +1,39 @@
+<div class="min-h-screen flex flex-col md:flex-row font-poppins bg-white">
+  <!-- Sidebar / Illustration (Desktop Only) -->
+  <aside
+    class="hidden md:flex flex-col justify-center pl-8 lg:pl-16 pr-8 py-16 w-full md:w-1/2 bg-[#F0F4FC] relative overflow-hidden rounded-tr-[100px] rounded-br-[100px] shadow-[0_5px_100px_0_#0000001A]">
+    <div class="max-w-[480px] mx-auto md:mx-0 text-center md:text-left">
+      <h2 class="text-3xl md:text-[36px] font-bold text-black">Welcome to</h2>
+      <h1 class="text-4xl sm:text-5xl md:text-[56px] font-extrabold text-[#4461F2] leading-[0.95] mb-4">Exam</h1>
+      <p class="text-sm sm:text-[16px] text-[#40464F] leading-6 sm:leading-7 mb-10">
+        Quidem autem voluptatibus qui quaerat aspernatur architecto natus
+      </p>
+
+      <img src="assets/images/bro.png" alt="Illustration"
+        class="w-full max-w-[380px] h-auto object-contain mt-6 mx-auto md:mx-0" />
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex flex-col w-full md:w-1/2 px-4 sm:px-8 md:px-16 py-10">
+    <header class="flex flex-wrap items-center justify-end gap-4 sm:gap-6 mb-4">
+      <select aria-label="Language" class="text-sm bg-transparent focus:outline-none border-b border-gray-300 py-1">
+        <option>English</option>
+        <option>Arabic</option>
+      </select>
+
+      <a routerLink="/auth/signin" class="text-[#4461F2] font-semibold hover:underline whitespace-nowrap">Sign in</a>
+
+      <a routerLink="/auth/signup"
+        class="py-1 px-4 rounded-[15px] border border-[#4461F2] text-[#4461F2] shadow-[0_10px_30px_0_#4461F20D] hover:bg-[#4461F2] hover:text-white transition whitespace-nowrap">
+        Register
+      </a>
+    </header>
+
+    <div class="flex-1 flex flex-col justify-center">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-socialicons class="mt-auto"></app-socialicons>
+  </main>
+</div>

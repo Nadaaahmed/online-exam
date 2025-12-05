@@ -3,6 +3,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "auth-lib": [
+        "./dist/auth-lib"
+      ]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -29,6 +34,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/auth-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/auth-lib/tsconfig.spec.json"
     }
   ]
 }

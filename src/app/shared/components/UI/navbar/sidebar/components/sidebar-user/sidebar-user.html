@@ -1,0 +1,51 @@
+<!-- Loading state -->
+<div *ngIf="isLoading" class="mt-10 p-4 text-center text-gray-500">
+  <p class="text-sm">Loading user data...</p>
+</div>
+<!-- User menu -->
+<div *ngIf="!isLoading" class="mt-10" (document:click)="closeMenu()">
+  <div class="flex items-center justify-between gap-3 relative">
+    <div class="flex items-center gap-3 flex-1">
+      <img 
+        [src]="userImage"
+        [alt]="userName"
+        class="w-10 h-10 rounded-md object-cover"
+        (error)="onImageError($event)"
+      />
+      <div class="leading-tight">
+        <p class="text-sm text-blue-700 font-semibold">{{ userName || 'User' }}</p>
+        <p class="text-xs text-purple-600">{{ userEmail || 'No email' }}</p>
+      </div>
+    </div>
+
+    <div class="relative">
+      <button 
+        (click)="toggleUserMenu($event)" 
+        class="p-1 rounded-md hover:bg-blue-100 transition"
+        type="button"
+      >
+        <img src="assets/images/Menu.png" class="w-5 h-5" alt="menu" />
+      </button>
+
+      <div 
+        *ngIf="isUserMenuOpen" 
+        class="absolute top-[-50px] right-0 mt-2 w-40 rounded-md border border-blue-100 bg-white shadow-lg text-sm z-50"
+      >
+        <button 
+          (click)="onAccount()" 
+          class="block w-full px-4 py-2.5 text-left text-gray-700 hover:bg-blue-50 transition flex items-center gap-2"
+        >
+          <i class="fa-solid fa-user text-blue-600"></i>
+          Account
+        </button>
+
+        <app-logout-button
+          variant="dropdown"
+          buttonText="Logout"
+          iconSrc="assets/images/log-out.png"
+          (loggedOut)="closeMenu()"
+        ></app-logout-button>
+      </div>
+    </div>
+  </div>
+</div>

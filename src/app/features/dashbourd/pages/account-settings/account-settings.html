@@ -1,0 +1,10 @@
+<div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6">
+  <div class="flex flex-col gap-6">
+    <app-sidebar-nav [links]="links"></app-sidebar-nav>
+<app-logout-button ></app-logout-button>
+   </div>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

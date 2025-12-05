@@ -1,0 +1,19 @@
+<div [formGroup]="form" class="w-full">
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [formControlName]="controlName"
+    class="w-full h-[56px] bg-[#F9F9F9] rounded-[10px] shadow-[0_10px_20px_0_#4461F20D] px-4 outline-none border-2 transition-colors duration-300 ease-in-out placeholder:text-[#A0A0A0]"
+    [ngClass]="{
+      'border-[#F04438]': (form?.get(controlName)?.invalid && form?.get(controlName)?.touched) || (form?.errors && form?.touched),
+      'border-[#3364FD]': form?.get(controlName)?.valid && form?.get(controlName)?.touched && !form?.errors,
+      'border-transparent': !form?.get(controlName)?.touched
+    }"
+  />
+  <app-error-message 
+    [control]="form?.get(controlName) ?? null" 
+    [form]="form"
+    [fieldName]="getFieldName()"
+    [showFormErrors]="controlName === 'confirmPassword' || controlName === 'rePassword'">
+  </app-error-message>
+</div>

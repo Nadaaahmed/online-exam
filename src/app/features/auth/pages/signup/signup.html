@@ -1,0 +1,35 @@
+<section class="flex flex-col items-center md:items-start w-full max-w-md mx-auto font-poppins">
+    <h2 class="text-[25px] font-bold mb-6 text-center md:text-left w-full">
+        Sign up
+    </h2>
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()" class="w-full flex flex-col gap-6">
+        <app-reusableinput [form]="signUpForm" controlName="username" [fieldName]="'Username'" placeholder="Enter Username" type="text">
+        </app-reusableinput>
+        <app-reusableinput [form]="signUpForm" controlName="firstName" [fieldName]="'First Name'" placeholder="Enter First Name" type="text">
+        </app-reusableinput>
+        <app-reusableinput [form]="signUpForm" controlName="lastName" [fieldName]="'Last Name'" placeholder="Enter Last Name" type="text">
+        </app-reusableinput>
+        <app-reusableinput [form]="signUpForm" controlName="email" [fieldName]="'Email'" placeholder="Email" type="email">
+        </app-reusableinput>
+
+        <app-reusableinput [form]="signUpForm" controlName="password" [fieldName]="'Password'" placeholder="Password" type="password">
+        </app-reusableinput>
+        <app-reusableinput [form]="signUpForm" controlName="rePassword" [fieldName]="'Confirm Password'" placeholder="Confirm Password" type="password">
+        </app-reusableinput>
+        <app-reusableinput [form]="signUpForm" controlName="phone" [fieldName]="'Phone Number'" placeholder="Phone Number" type="text">
+        </app-reusableinput>
+
+        <div class="flex justify-center">
+            <a routerLink="/auth/signin" class="text-[#6C737F] text-[16px]">
+                Already have an account?<span class="text-[#4461F2] hover:underline">Login</span> </a>
+        </div>
+
+        <div class="mt-4">
+            <app-form-button 
+                [label]="'Sign up'" 
+                [type]="'submit'"
+                [disabled]="signUpForm.invalid">
+            </app-form-button>
+        </div>
+    </form>
+</section>
