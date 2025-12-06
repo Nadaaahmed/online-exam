@@ -1,5 +1,5 @@
-import { AuthGuard } from './../../../../../projects/auth-lib/src/lib/guards/auth.guard';
 import { Routes } from '@angular/router';
+import { AuthGuard } from './../../../../../projects/auth-lib/src/lib/guards/auth.guard';
 import { DashboardLayout } from '../dashboard-layout/dashboard-layout';
 import { AccountSettings } from '../pages/account-settings/account-settings';
 import { DiplomasPage } from '../pages/diplomas-page/diplomas-page';
@@ -11,11 +11,15 @@ export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
     component: DashboardLayout,
-    canActivate: [AuthGuard], 
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'diplomas', pathMatch: 'full' },
       { path: 'diplomas', component: DiplomasPage },
-      { path: 'exams/:subjectId', component: Exams },
+      {
+        path: 'exams/:subjectId',
+        component: Exams,
+        data: { renderMode: 'dynamic' }, // dynamic SSR
+      },
       {
         path: 'account-settings',
         component: AccountSettings,

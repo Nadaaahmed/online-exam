@@ -1,14 +1,16 @@
 {
   "name": "online-exam",
   "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:online-exam": "node dist/online-exam/server/server.mjs"
-  },
+ "scripts": {
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "build:ssr": "ng run online-exam:build:production && ng run online-exam:server:production",
+  "serve:ssr": "node dist/online-exam/server/server.mjs",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test"
+}
+,
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
