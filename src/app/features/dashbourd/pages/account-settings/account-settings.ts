@@ -1,4 +1,4 @@
-import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { LogoutButton } from './components/logout-button/logout-button';
@@ -29,8 +29,8 @@ export class AccountSettings {
     },
   ];
 
-  userName = '';
-  userEmail = '';
+  userName = signal('');
+  userEmail = signal('');
 
   constructor() {
     this.loadUserData();

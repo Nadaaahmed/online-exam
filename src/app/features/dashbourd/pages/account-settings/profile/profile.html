@@ -5,17 +5,17 @@
   </div>
 
   <!-- Loading -->
-  <div *ngIf="isLoading && !user" class="text-xs text-gray-500">
+  <div *ngIf="isLoading() && !user()" class="text-xs text-gray-500">
     Loading latest profile data...
   </div>
 
   <!-- Error when no user -->
-  <div *ngIf="!isLoading && !user && errorMessage" class="text-xs text-red-500">
+  <div *ngIf="!isLoading() && !user() && errorMessage" class="text-xs text-red-500">
     {{ errorMessage }}
   </div>
 
   <!-- User Form -->
-  <div *ngIf="user">
+  <div *ngIf="user()">
     <!-- Error message -->
     <div *ngIf="errorMessage" class="text-xs text-red-500">{{ errorMessage }}</div>
 
@@ -61,18 +61,17 @@
         <button
           type="button"
           class="px-6 py-2 border border-red-300 bg-red-50 text-red-500 rounded"
-          [disabled]="isDeleting"
+          [disabled]="isDeleting()"
           (click)="onDeleteAccount()"
         >
-          {{ isDeleting ? 'Deleting...' : 'Delete My Account' }}
+          {{ isDeleting() ? 'Deleting...' : 'Delete My Account' }}
         </button>
-
         <button
           type="submit"
           class="px-6 py-2 bg-blue-600 text-white rounded disabled:opacity-60"
-          [disabled]="isSaving || profileForm.invalid"
+          [disabled]="isSaving() || profileForm.invalid"
         >
-          {{ isSaving ? 'Saving...' : 'Save Changes' }}
+          {{ isSaving() ? 'Saving...' : 'Save Changes' }}
         </button>
       </div>
     </form>

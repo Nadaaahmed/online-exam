@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../../../../projects/auth-lib/src/lib/service/auth.service';
 import { Router } from '@angular/router';
@@ -14,10 +14,10 @@ import { take } from 'rxjs';
 })
 export class AccountProfile implements OnInit {
   profileForm!: FormGroup;
-  user: any;
-  isLoading = true;
-  isSaving = false;
-  isDeleting = false;
+  user = signal(<any>(null));
+  isLoading =signal(true);
+  isSaving = signal(false);
+  isDeleting = signal(false);
   errorMessage = '';
   successMessage = '';
 
@@ -43,30 +43,30 @@ export class AccountProfile implements OnInit {
 
   loadUserProfile() {
     if (!isPlatformBrowser(this.platformId) || !this.authService.getToken()) {
-      this.isLoading = false;
+      this.isLoading.set(false);
       return;
     }
 
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.authService
       .getLoggedUserInfo()
       .pipe(take(1))
       .subscribe({
         next: (res) => {
-          this.user = res.user;
-          this.isLoading = false;
+          this.user.set(res.user);
+          this.isLoading.set(false);
 
           this.profileForm.patchValue({
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
-            username: this.user.username || '',
-            email: this.user.email,
-            phone: this.user.phone || '',
+            firstName: this.user().firstName,
+            lastName: this.user().lastName,
+            username: this.user().username || '',
+            email: this.user().email,
+            phone: this.user().phone || '',
           });
         },
         error: () => {
           this.errorMessage = 'Failed to load profile data';
-          this.isLoading = false;
+          this.isLoading.set(false);
         },
       });
   }
@@ -74,7 +74,7 @@ export class AccountProfile implements OnInit {
   onSaveChanges() {
     if (this.profileForm.invalid || !isPlatformBrowser(this.platformId)) return;
 
-    this.isSaving = true;
+    this.isSaving.set(true);
     this.errorMessage = '';
     this.successMessage = '';
 
@@ -86,13 +86,13 @@ export class AccountProfile implements OnInit {
       .subscribe({
         next: () => {
           this.successMessage = 'Profile updated successfully!';
-          this.isSaving = false;
+          this.isSaving.set(false);
           this.profileForm.patchValue({ firstName, lastName, email, username });
-          this.user = { ...this.user, firstName, lastName, email, username };
+          this.user.set({ ...this.user(), firstName, lastName, email, username });
         },
         error: () => {
           this.errorMessage = 'Failed to update profile';
-          this.isSaving = false;
+          this.isSaving.set(false);
         },
       });
   }
@@ -103,20 +103,20 @@ export class AccountProfile implements OnInit {
     if (!confirm('Are you sure you want to delete your account? This action cannot be undone.'))
       return;
 
-    this.isDeleting = true;
+    this.isDeleting.set(true);
 
     this.authService
       .deleteMyAccount()
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.isDeleting = false;
+          this.isDeleting.set(false);
           localStorage.removeItem('token');
           this.router.navigate(['/auth/signin']);
         },
         error: () => {
           this.errorMessage = 'Failed to delete account. Please try again.';
-          this.isDeleting = false;
+          this.isDeleting.set(false);
         },
       });
   }
