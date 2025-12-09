@@ -1,0 +1,135 @@
+<div class="exam-result-page" *ngIf="result">
+  <!-- Page Header -->
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="text-sm text-gray-500 mb-2">Home / Exams / {{ result.examTitle || 'Quiz' }} / Questions</div>
+    <div class="flex items-center justify-between gap-4">
+      <h1 class="text-2xl font-bold bg-blue-600 text-white px-4 py-2 rounded">
+        [{{ result.examTitle || 'Quiz' }}] Questions
+      </h1>
+      <div class="text-sm text-gray-600">
+        Question {{ result.currentQuestion || 1 }} of {{ result.total || (result.questions?.length || 0) }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex gap-6 p-6">
+    <!-- Left: Chart Section -->
+    <div class="w-80 flex-shrink-0">
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <!-- Chart -->
+        <div class="flex justify-center mb-6">
+          <p-chart
+            type="doughnut"
+            [data]="chartData"
+            [options]="chartOptions"
+            [style]="{ width: '260px', height: '260px' }"
+          ></p-chart>
+        </div>
+
+        <!-- Legend -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="w-4 h-4 bg-green-500 rounded-full"></span>
+            <span class="text-gray-700">Correct: <strong class="font-bold text-lg">{{ result.correct }}</strong></span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 h-4 bg-red-500 rounded-full"></span>
+            <span class="text-gray-700">Incorrect: <strong class="font-bold text-lg">{{ result.incorrect }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Results Section -->
+    <div class="flex-1">
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h3 class="text-xl font-bold text-blue-600 mb-4">Results:</h3>
+
+        <!-- Questions List -->
+        <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+          <!-- Wrong Questions Section -->
+          <ng-container *ngIf="result.WrongQuestions && result.WrongQuestions.length > 0">
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold text-red-600 mb-3">❌ Wrong Answers ({{ result.WrongQuestions.length }})</h4>
+              <ng-container *ngFor="let q of result.WrongQuestions; let i = index">
+                <div class="border-2 border-red-300 rounded-lg p-4 bg-red-50 mb-3">
+                  <!-- Question Title -->
+                  <div class="font-semibold text-gray-900 mb-3">
+                    Q{{ i + 1 }}. {{ q.Question || 'Question text' }}
+                  </div>
+
+                  <!-- User's Wrong Answer -->
+                  <div class="mb-3 p-3 bg-red-100 rounded-lg border-l-4 border-red-600">
+                    <div class="text-sm font-semibold text-red-700 mb-1">Your Answer (Wrong):</div>
+                    <div class="flex items-center gap-2 text-red-900">
+                      <span class="text-lg">✕</span>
+                      <span>{{ q.answers?.[q.inCorrectAnswer] || q.inCorrectAnswer }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Correct Answer -->
+                  <div class="p-3 bg-green-100 rounded-lg border-l-4 border-green-600">
+                    <div class="text-sm font-semibold text-green-700 mb-1">Correct Answer:</div>
+                    <div class="flex items-center gap-2 text-green-900">
+                      <span class="text-lg">✓</span>
+                      <span>{{ q.answers?.[q.correctAnswer] || q.correctAnswer }}</span>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+
+          <!-- Correct Questions Section -->
+          <ng-container *ngIf="result.correctQuestions && result.correctQuestions.length > 0">
+            <div>
+              <h4 class="text-lg font-semibold text-green-600 mb-3">✓ Correct Answers ({{ result.correctQuestions.length }})</h4>
+              <ng-container *ngFor="let q of result.correctQuestions; let i = index">
+                <div class="border-2 border-green-300 rounded-lg p-4 bg-green-50 mb-3">
+                  <!-- Question Title -->
+                  <div class="font-semibold text-gray-900 mb-3">
+                    Q{{ (result.WrongQuestions?.length || 0) + i + 1 }}. {{ q.Question || 'Question text' }}
+                  </div>
+
+                  <!-- Correct Answer -->
+                  <div class="p-3 bg-green-100 rounded-lg border-l-4 border-green-600">
+                    <div class="text-sm font-semibold text-green-700 mb-1">Your Answer (Correct):</div>
+                    <div class="flex items-center gap-2 text-green-900">
+                      <span class="text-lg">✓</span>
+                      <span>{{ q.answers?.[q.correctAnswer] || q.correctAnswer }}</span>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Buttons -->
+  <div class="flex gap-4 px-6 py-4 border-t border-gray-200 bg-white">
+    <button
+      (click)="restart()"
+      class="flex-1 px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+    >
+      <span>⟲</span> Restart
+    </button>
+    <button
+      (click)="explore()"
+      class="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+    >
+      <span>→</span> Explore
+    </button>
+  </div>
+</div>
+
+<!-- No Result State -->
+<div *ngIf="!result" class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="text-center">
+    <p class="text-gray-600 text-lg mb-4">No exam results found. Redirecting...</p>
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+  </div>
+</div>

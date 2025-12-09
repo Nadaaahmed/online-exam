@@ -61,11 +61,12 @@ export class DashboardLayout {
     }
   }
 
+  // dashboard-layout.ts
   private setupNavbarFromRoute() {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event) => {
-        const url = event.urlAfterRedirects || event.url;
+        const url = event.urlAfterRedirects;
 
         if (url.startsWith('/dashboard/account-settings')) {
           this.navbarTitle = 'Account Settings';
@@ -75,6 +76,14 @@ export class DashboardLayout {
           this.navbarTitle = 'Diplomas';
           this.navbarIcon = 'fa-solid fa-graduation-cap';
           this.showBackButton = false;
+        } else if (url.includes('/exams/')) {
+          this.navbarTitle = 'Exams';
+          this.navbarIcon = 'fa-solid fa-list-check';
+          this.showBackButton = true;
+        } else if (url.includes('/questions/')) {
+          this.navbarTitle = 'Questions';
+          this.navbarIcon = 'fa-solid fa-file-lines';
+          this.showBackButton = true;
         } else {
           this.navbarTitle = 'Home';
           this.navbarIcon = 'fa-solid fa-graduation-cap';

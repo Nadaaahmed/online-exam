@@ -1,20 +1,19 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { isPlatformBrowser } from '@angular/common';
-import { inject, PLATFORM_ID } from '@angular/core';
+import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from '../service/auth.service';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const platformId = inject(PLATFORM_ID);
+export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
+  const auth = inject(AuthService);
+  const token = auth.getToken();
 
-  if (isPlatformBrowser(platformId)) {
-    const token = localStorage.getItem('token');
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          token: token,
-        },
-      });
-    }
+  if (token) {
+    // لازم يكون نفس اسم الهيدر اللي الـ API متوقعه
+    req = req.clone({
+      setHeaders: {
+        token,
+      },
+    });
   }
 
   return next(req);
-};
+}

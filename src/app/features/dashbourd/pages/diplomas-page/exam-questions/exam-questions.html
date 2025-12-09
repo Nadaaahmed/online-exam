@@ -1,0 +1,79 @@
+@if (loading()) {
+  <div class="text-center mt-10 p-4 text-gray-600">
+    Loading questions...
+  </div>
+}
+
+@if (!loading() && questions().length > 0) {
+
+  @let q = questions()[currentIndex()];
+
+  <div class="max-w-3xl mx-auto mt-6 px-4">
+    <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+
+      <div class="flex justify-between text-sm text-gray-500 mb-3">
+        <span>Question {{ currentIndex() + 1 }}</span>
+        <span>of {{ questions().length }}</span>
+      </div>
+
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">
+        {{ q.question }}
+      </h2>
+
+      <ul class="space-y-3">
+        @for (answer of q.answers; track answer.key) {
+          <li>
+            <label
+              class="flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition
+                     hover:bg-blue-50 hover:border-blue-400
+                     {{ isSelected(q._id, answer.key) ? 'bg-blue-50 border-blue-500' : '' }}"
+            >
+              <input
+                type="radio"
+                class="h-4 w-4 text-blue-600"
+                name="q{{ q._id }}"
+                [checked]="isSelected(q._id, answer.key)"
+                (change)="onSelectAnswer(q._id, answer.key)"
+              />
+              <span class="text-gray-700">{{ answer.answer }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+
+      <div class="mt-6 flex items-center justify-between">
+        <button
+          (click)="previous()"
+          class="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700"
+          [disabled]="currentIndex() === 0"
+        >
+          Previous
+        </button>
+
+        <div class="w-12 h-12 flex items-center justify-center rounded-full border-4 border-blue-600 text-blue-700 font-semibold">
+          {{ timerDisplay() }}
+        </div>
+
+        <button
+          (click)="next()"
+          class="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
+          [disabled]="currentIndex() === questions().length - 1"
+        >
+          Next
+        </button>
+      </div>
+
+      @if (canSubmit()) {
+        <!-- استخدم هذا الزر -->
+        <button
+          (click)="submitExamNow()"
+          [disabled]="loading() || !canSubmit()"
+          type="button"
+          class="mt-6 px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white"
+        >
+          Submit
+        </button>
+      }
+    </div>
+  </div>
+}

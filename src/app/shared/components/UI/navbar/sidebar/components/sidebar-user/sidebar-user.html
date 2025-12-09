@@ -1,13 +1,13 @@
 <!-- Loading state -->
-<div *ngIf="isLoading" class="mt-10 p-4 text-center text-gray-500">
+<div *ngIf="isLoading()" class="mt-10 p-4 text-center text-gray-500">
   <p class="text-sm">Loading user data...</p>
 </div>
 <!-- User menu -->
-<div *ngIf="!isLoading" class="mt-10" (document:click)="closeMenu()">
+<div *ngIf="!isLoading()" class="mt-10" (document:click)="closeMenu()">
   <div class="flex items-center justify-between gap-3 relative">
     <div class="flex items-center gap-3 flex-1">
       <img 
-        [src]="userImage"
+        [src]="userImage()"
         [alt]="userName"
         class="w-10 h-10 rounded-md object-cover"
         (error)="onImageError($event)"
@@ -28,7 +28,7 @@
       </button>
 
       <div 
-        *ngIf="isUserMenuOpen" 
+        *ngIf="isUserMenuOpen()" 
         class="absolute top-[-50px] right-0 mt-2 w-40 rounded-md border border-blue-100 bg-white shadow-lg text-sm z-50"
       >
         <button 

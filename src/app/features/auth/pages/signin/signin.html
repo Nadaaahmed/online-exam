@@ -7,6 +7,6 @@
       <a routerLink="/auth/forgot-password" class="text-[#4461F2] text-[16px] hover:underline transition-all duration-200">Recover Password ?</a>
     </div>
     <app-form-button label="Sign in" type="submit" [disabled]="signInForm.invalid"></app-form-button>
-    <p class="text-red-600 text-sm mt-2" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <p class="text-red-600 text-sm mt-2" *ngIf="errorMessage()">{{ errorMessage() }}</p>
   </form>
 </section>

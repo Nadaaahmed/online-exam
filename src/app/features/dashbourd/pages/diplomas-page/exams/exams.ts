@@ -1,37 +1,45 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { DiplomasService } from '../../../services/diplomas.service';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExamCard } from './exam-card/exam-card';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { DiplomasService } from '../../../services/diplomas.service';
+import { catchError, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-exams',
-  imports: [ExamCard, CommonModule],
+  standalone: true,
+  imports: [CommonModule, ExamCard],
   templateUrl: './exams.html',
-  styleUrl: './exams.scss',
+  styleUrls: ['./exams.scss'],
 })
 export class Exams implements OnInit {
-  private route = inject(ActivatedRoute);
   private diplomasService = inject(DiplomasService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
-  exams: any[] = [];
   subjectId = '';
+  exams$!: Observable<any[]>;
 
   ngOnInit(): void {
-    this.subjectId = this.route.snapshot.paramMap.get('subjectId') ?? '';
-    console.log('Subject ID:', this.subjectId);
-    this.loadExams();
+    this.subjectId = this.route.snapshot.paramMap.get('subjectId') || '';
+
+    if (!this.subjectId) {
+      console.warn('Invalid subjectId!');
+      this.router.navigate(['/dashboard/subjects']); // Redirect
+      return;
+    }
+
+    this.exams$ = this.diplomasService.getAllExamsOnSubject(this.subjectId).pipe(
+      catchError((err) => {
+        console.error('Error fetching exams', err);
+        return of([]);
+      })
+    );
   }
 
-  loadExams() {
-    if (!this.subjectId) return;
-
-    this.diplomasService.getAllExamsOnSubject(this.subjectId).subscribe({
-      next: (res) => {
-        console.log('Exams:', res);
-        this.exams = res;
-      },
-      error: (err) => console.error(err),
-    });
+  goToQuestions(examId: string) {
+    const subjectId = this.route.snapshot.paramMap.get('subjectId');
+    this.router.navigate(['/dashboard/exams', subjectId, 'questions', examId]);
   }
 }

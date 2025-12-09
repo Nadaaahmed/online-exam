@@ -1,16 +1,15 @@
 {
   "name": "online-exam",
   "version": "0.0.0",
- "scripts": {
-  "ng": "ng",
-  "start": "ng serve",
-  "build": "ng build",
-  "build:ssr": "ng run online-exam:build:production && ng run online-exam:server:production",
-  "serve:ssr": "node dist/online-exam/server/server.mjs",
-  "watch": "ng build --watch --configuration development",
-  "test": "ng test"
-}
-,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:ssr": "ng run online-exam:build:production && ng run online-exam:server:production",
+    "serve:ssr": "node dist/online-exam/server/server.mjs",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
@@ -33,7 +32,13 @@
     "@angular/platform-server": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@angular/ssr": "^20.3.8",
+    "@ngrx/effects": "^20.1.0",
+    "@ngrx/store": "^20.1.0",
+    "@ngrx/store-devtools": "^20.1.0",
+    "chart.js": "^4.5.1",
     "express": "^5.1.0",
+    "primeicons": "^7.0.0",
+    "primeng": "^20.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Setpassword } from '../components/setpassword/setpassword';
 import { Verifycode } from '../components/verifycode/verifycode';
 import { EnterEmail } from '../components/enter-email/enter-email';
@@ -12,11 +12,11 @@ import { CommonModule } from '@angular/common';
 })
 export class ForgotPasswordLayout implements OnInit {
   currentStep: 'email' | 'verify' | 'password' = 'email';
-  email!: string;
+  email = signal('');
 
   goToVerification(email: string) {
     console.log('Email for verification:', email);
-    this.email = email;
+    this.email.set(email);
     this.currentStep = 'verify';
   }
 

@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-exam-card',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './exam-card.html',
-  styleUrl: './exam-card.scss',
+  styleUrls: ['./exam-card.scss'],
 })
 export class ExamCard {
   @Input() title!: string;
-  @Input() questions!: number;
+  @Input() numberOfQuestions!: number;
   @Input() duration!: number;
 }

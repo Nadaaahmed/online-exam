@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LogoutButton } from '../../../../../../../features/dashbourd/pages/account-settings/components/logout-button/logout-button';
 import { AuthService } from '../../../../../../../../../projects/auth-lib/src/lib/service/auth.service';
 
@@ -12,41 +12,53 @@ import { AuthService } from '../../../../../../../../../projects/auth-lib/src/li
 export class SidebarUser implements OnInit {
   @Input() userName: string = '';
   @Input() userEmail: string = '';
-  user: any;
-  userImage: string = 'assets/images/circle-user-round.png';
-  isUserMenuOpen = false;
-  isLoading = true;
+  user = signal<any>(null);
+  userImage = signal('assets/images/circle-user-round.png');
+  isUserMenuOpen = signal(false);
+  isLoading = signal(true);
 
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
+  private platformId = inject(PLATFORM_ID);
 
   ngOnInit(): void {
     this.loadUserData();
   }
 
   loadUserData(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.isLoading.set(false);
+      return;
+    }
+
+    const token = this.authService.getToken();
+    if (!token) {
+      this.isLoading.set(false);
+      return;
+    }
+
     this.authService.getLoggedUserInfo().subscribe({
       next: (res) => {
-        this.user = res.user;
-        this.userName = this.user.firstName + ' ' + this.user.lastName;
-        this.userEmail = this.user.email;
-        this.userImage = this.user.avatar || 'assets/images/circle-user-round.png';
-        this.isLoading = false;
-        console.log('User profile:', this.user);
+        this.user.set(res.user);
+        this.userName = this.user().firstName + ' ' + this.user().lastName;
+        this.userEmail = this.user().email;
+        this.userImage.set(this.user().avatar || 'assets/images/circle-user-round.png');
+        this.isLoading.set(false);
+        console.log('User profile:', this.user());
       },
       error: (err) => {
         console.error('Error fetching profile', err);
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
     });
   }
 
   toggleUserMenu(event: Event): void {
     event.stopPropagation();
-    this.isUserMenuOpen = !this.isUserMenuOpen;
+    this.isUserMenuOpen.set(!this.isUserMenuOpen());
   }
 
   closeMenu(): void {
-    this.isUserMenuOpen = false;
+    this.isUserMenuOpen.set(false);
   }
 
   onAccount(): void {

@@ -1,10 +1,13 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss',
+  styleUrls: ['./navbar.scss'],
+  standalone: true,
+  imports: [BreadcrumbModule, ButtonModule],
 })
 export class Navbar {
   @Input() title = 'Home';

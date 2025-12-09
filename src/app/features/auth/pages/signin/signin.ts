@@ -1,5 +1,5 @@
 import { AuthService } from './../../../../../../projects/auth-lib/src/lib/service/auth.service';
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -18,8 +18,8 @@ export class Signin implements OnDestroy {
   private _router = inject(Router);
   private _subscription = new Subscription();
 
-  loading = false;
-  errorMessage = '';
+  loading = signal(false);
+  errorMessage = signal('');
 
   signInForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -29,19 +29,19 @@ export class Signin implements OnDestroy {
   login() {
     if (this.signInForm.invalid) return;
 
-    this.loading = true;
-    this.errorMessage = '';
+    this.loading.set(true);
+    this.errorMessage.set('');
 
     const body = this.signInForm.value;
 
     const sub = this._authService.login(body).subscribe({
       next: () => {
-        this.loading = false;
+        this.loading.set(false);
         this._router.navigate(['/dashboard']);
       },
       error: () => {
-        this.loading = false;
-        this.errorMessage = 'Invalid email or password';
+        this.loading.set(false);
+        this.errorMessage.set('Invalid email or password');
       },
     });
 

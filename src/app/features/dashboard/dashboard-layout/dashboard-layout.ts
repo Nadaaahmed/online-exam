@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { AuthService } from '../../../../../projects/auth-lib/src/lib/service/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dashboard-layout.scss',
 })
 export class DashboardLayout implements OnInit {
-  user: any;
+  user = signal<any>(null);
 
   constructor(private authService: AuthService) {}
 
